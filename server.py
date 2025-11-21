@@ -7,7 +7,7 @@ def handle_client(conn, addr):
     It handles all communication for ONE specific client.
     """
     print(f"[NEW CONNECTION] Client {addr} connected.")
-
+    
     connected = True
     # Keep the connection open for multiple requests 
     while connected:
@@ -32,7 +32,7 @@ def handle_client(conn, addr):
                 # Split the string by the comma to get the two numbers
                 # Expecting format: "base,exponent"
                 base_str, exp_str = message.split(',')
-                
+
                 # Convert the string text into actual numbers (floats)
                 base = float(base_str)
                 exponent = float(exp_str)
@@ -40,14 +40,18 @@ def handle_client(conn, addr):
                 # 3. Perform the Math Calculation
                 # Compute the result: result = base^exponent
                 result = base ** exponent
-                
+
                 # Prepare response message
                 # Convert the numerical result back to a string to send it
                 response = str(result)
                 
+                # show the answer it calculated (e.g., "Sending result: 8.0")
+                print(f"[{addr}] Calculated and sending result: {response}")
+                
             except ValueError:
                 # Handle error if client sends bad data (like "hello" instead of numbers)
                 response = "Error: Invalid input format. Please use 'base,exponent'"
+                print(f"[{addr}] Input Error. Sending error message.")
 
             # 4. Send Response
             # Encode the string back to bytes and send it to the client
@@ -58,9 +62,9 @@ def handle_client(conn, addr):
             print(f"[ERROR] Connection was reset by {addr}.")
             connected = False
             break
-    
+
     # Close the connection for this specific client cleanly
-    conn.close()
+    conn.close()    
 
 def start_server():
     """
