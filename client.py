@@ -5,9 +5,9 @@ def start_client():
     # Configuration
     # IMPORTANT: Replace this IP with the actual IP address of the computer running server.py
     SERVER_IP = input("Enter the Server IP address (e.g., 192.168.1.5): ")
-    SERVER_PORT = 65432
+    SERVER_PORT = 55555
 
-    # Create a TCP/IP socket [cite: 11]
+    # Create a TCP/IP socket 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
@@ -18,7 +18,7 @@ def start_client():
 
         # Loop to allow multiple requests on the same connection [cite: 20]
         while True:
-            # 1. Get user input [cite: 13]
+            # 1. Get user input 
             base = input("\nEnter Base: ")
             if base.lower() == 'exit':
                 break
@@ -28,13 +28,13 @@ def start_client():
             # Prepare the message in format "base,exponent"
             message = f"{base},{exponent}"
 
-            # 2. Send request and Measure RTT [cite: 18]
+            # 2. Send request and Measure RTT 
             start_time = time.time() # Start timer
 
             # Send data (must be encoded to bytes)
             client_socket.sendall(message.encode('utf-8'))
 
-            # Wait for and receive the response [cite: 17]
+            # Wait for and receive the response 
             data = client_socket.recv(1024)
 
             end_time = time.time() # Stop timer
@@ -45,7 +45,7 @@ def start_client():
             # Calculate RTT in seconds
             rtt = end_time - start_time
 
-            # 4. Display output [cite: 19]
+            # 4. Display output 
             print(f"Computed Result: {response}")
             print(f"Round-Trip Time (RTT): {rtt:.6f} seconds")
 
@@ -59,4 +59,5 @@ def start_client():
         client_socket.close()
 
 if __name__ == "__main__":
+
     start_client()
