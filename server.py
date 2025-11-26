@@ -86,7 +86,7 @@ def start_server():
         
         # Start listening for incoming connections
         server.listen()
-        print(f"[STARTING] Server is listening on {HOST}:{PORT}")
+        print(f"[STARTING] Server is listening on port: {PORT}")
     except Exception as e:
         print(f"Error binding server: {e}")
         return
@@ -111,4 +111,5 @@ def start_server():
 # Standard Python boilerplate to run the start_server function
 if __name__ == "__main__":
     start_server()
+
 
