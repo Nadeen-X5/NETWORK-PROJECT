@@ -74,10 +74,10 @@ def start_server():
     # '0.0.0.0' allows the server to listen to other computers on the LAN
     HOST = '0.0.0.0' 
     # The port number our server will listen on (must match the Client!)
-    PORT = 65432     
+    PORT = 55555     
 
     # Create the socket object using IPv4 (AF_INET) and TCP (SOCK_STREAM)
-    # AF_INET refers to IPv4, SOCK_STREAM refers to TCP protocol [cite: 8]
+    # AF_INET refers to IPv4, SOCK_STREAM refers to TCP protocol 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     try:
@@ -111,3 +111,4 @@ def start_server():
 # Standard Python boilerplate to run the start_server function
 if __name__ == "__main__":
     start_server()
+
