@@ -1,5 +1,5 @@
-import socket
-import time
+import socket # lets the program create a TCP connection.
+import time   # to measure RTT
 
 def start_client():
     # Configuration
@@ -7,18 +7,19 @@ def start_client():
     SERVER_IP = input("Enter the Server IP address (e.g., 192.168.1.5): ")
     SERVER_PORT = 55555
 
-    # Create a TCP/IP socket 
+    # Create a TCP/IP socket
+    # AF_INET refers to IPv4, SOCK_STREAM refers to TCP protocol 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
         # Establish connection to the server
         client_socket.connect((SERVER_IP, SERVER_PORT))
-        print(f"Successfully connected to {SERVER_IP}:{SERVER_PORT}")
+        print(f"Successfully connected to HOST {SERVER_IP}: PORT {SERVER_PORT}")
         print("Type 'exit' as the base to quit.")
 
-        # Loop to allow multiple requests on the same connection [cite: 20]
+        # Loop to allow multiple client on the same connection 
         while True:
-            # 1. Get user input 
+            # 1. Get the user input 
             base = input("\nEnter Base: ")
             if base.lower() == 'exit':
                 break
@@ -35,12 +36,12 @@ def start_client():
             client_socket.sendall(message.encode('utf-8'))
 
             # Wait for and receive the response 
-            data = client_socket.recv(1024)
+            client_data = client_socket.recv(1024)
 
             end_time = time.time() # Stop timer
 
             # 3. Process results
-            response = data.decode('utf-8')
+            response = client_data.decode('utf-8')
             
             # Calculate RTT in seconds
             rtt = end_time - start_time
@@ -59,5 +60,4 @@ def start_client():
         client_socket.close()
 
 if __name__ == "__main__":
-
     start_client()
