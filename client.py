@@ -3,7 +3,7 @@ import time   # to measure RTT
 
 def start_client():
     # Configuration
-    # IMPORTANT: Replace this IP with the actual IP address of the computer running server.py
+    # Ask the user to input the server's IP address
     SERVER_IP = input("Enter the Server IP address (e.g., 192.168.1.5): ")
     SERVER_PORT = 55555
 
@@ -19,45 +19,47 @@ def start_client():
 
         # Loop to allow multiple client on the same connection 
         while True:
-            # 1. Get the user input 
+            # 1. Get input from the user 
             base = input("\nEnter Base: ")
             if base.lower() == 'exit':
                 break
             
             exponent = input("Enter Exponent: ")
 
-            # Prepare the message in format "base,exponent"
+            # Combine base and exponent into a single message"
             message = f"{base},{exponent}"
 
             # 2. Send request and Measure RTT 
             start_time = time.time() # Start timer
 
-            # Send data (must be encoded to bytes)
+            # Send the message to the server (encode string to bytes)
             client_socket.sendall(message.encode('utf-8'))
 
-            # Wait for and receive the response 
+            # Wait to receive the server's response (up to 1024 bytes)
             client_data = client_socket.recv(1024)
 
             end_time = time.time() # Stop timer
 
-            # 3. Process results
+            # 3. Process the received data
             response = client_data.decode('utf-8')
             
-            # Calculate RTT in seconds
+            # Calculate RTT (Round-Trip Time) in seconds
             rtt = end_time - start_time
 
-            # 4. Display output 
+            # 4. Display results to the user 
             print(f"Computed Result: {response}")
             print(f"Round-Trip Time (RTT): {rtt:.6f} seconds")
 
+    # Error handling
     except ConnectionRefusedError:
         print("Error: Could not connect to the server. Make sure it is running and the IP is correct.")
     except Exception as e:
         print(f"An error occurred: {e}")
     finally:
-        # Close the connection when done
+        # Close the socket connection when done
         print("Closing connection...")
         client_socket.close()
 
 if __name__ == "__main__":
     start_client()
+
