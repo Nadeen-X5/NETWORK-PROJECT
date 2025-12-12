@@ -1,5 +1,5 @@
-import socket # lets the program create a TCP connection.
-import time   # to measure RTT
+import socket     # Allows the program create a TCP connection.
+import time       # Used to measure Round-Trip Time (RTT) for messages
 
 def start_client():
     # Configuration
@@ -7,23 +7,26 @@ def start_client():
     SERVER_IP = input("Enter the Server IP address (e.g., 192.168.1.5): ")
     SERVER_PORT = 55555
 
-    # Create a TCP/IP socket
+    # socket.socket() creates a new socket object
     # AF_INET refers to IPv4, SOCK_STREAM refers to TCP protocol 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
         # Establish connection to the server
+        # connect() takes (IP, port) and initiates the TCP handshake
         client_socket.connect((SERVER_IP, SERVER_PORT))
-        print(f"Successfully connected to HOST {SERVER_IP}: PORT {SERVER_PORT}")
+        print(f"Successfully connected to HOST {SERVER_IP} PORT {SERVER_PORT}")
         print("Type 'exit' as the base to quit.")
 
         # Loop to allow multiple client on the same connection 
         while True:
-            # 1. Get input from the user 
+            # 1. Get input from the user
+            # Ask the user to enter the base number
             base = input("\nEnter Base: ")
-            if base.lower() == 'exit':
+            if base.lower() == 'exit': # Exit loop if user types 'exit'
                 break
             
+            # Ask the user to enter the exponent number
             exponent = input("Enter Exponent: ")
 
             # Combine base and exponent into a single message"
@@ -41,7 +44,7 @@ def start_client():
             end_time = time.time() # Stop timer
 
             # 3. Process the received data
-            response = client_data.decode('utf-8')
+            response = client_data.decode('utf-8') # Convert bytes back to string
             
             # Calculate RTT (Round-Trip Time) in seconds
             rtt = end_time - start_time
@@ -52,14 +55,17 @@ def start_client():
 
     # Error handling
     except ConnectionRefusedError:
+         # Raised if the server is not reachable or connection is refused
         print("Error: Could not connect to the server. Make sure it is running and the IP is correct.")
     except Exception as e:
+        # Catch any other exceptions and print the error message
         print(f"An error occurred: {e}")
     finally:
-        # Close the socket connection when done
+        # Always close the socket when done to free resources
         print("Closing connection...")
         client_socket.close()
 
 if __name__ == "__main__":
     start_client()
+
 
